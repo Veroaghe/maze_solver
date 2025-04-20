@@ -1,15 +1,16 @@
-from random import randrange
-from graphics import Window, Point, Line
+from maze import Maze
+from graphics import Window
 
 
 def main():
     win = Window(800, 600)
 
-    for _ in range(3):
-        p1 = Point(randrange(0, win.width), randrange(0, win.height))
-        p2 = Point(randrange(0, win.width), randrange(0, win.height))
-        line = Line(p1, p2)
-        win.draw_line(line, "black")
+    cell_width = cell_height = 40
+    cols = rows = 10
+    grid_x = (win.width - (cell_width * cols)) / 2
+    grid_y = (win.height - (cell_height * rows)) / 2
+
+    Maze(win, grid_x, grid_y, cols, rows, cell_width, cell_height)
 
     win.wait_for_close()
 
