@@ -30,6 +30,8 @@ class Cell:
         self.left_line = Line(self.p4, self.p1)
 
         self._win = win
+
+        self.visited = False
     
     def draw(self):
         if self.has_top_wall:
@@ -46,7 +48,7 @@ class Cell:
             self._win.draw_line(self.bottom_line)
         else:
             self._win.draw_line(self.bottom_line, "white")
-            
+
         if self.has_left_wall:
             self._win.draw_line(self.left_line)
         else:
@@ -59,3 +61,4 @@ class Cell:
             color = "red"
         
         self._win.draw_line(Line(self.center, other.center), color)
+    
