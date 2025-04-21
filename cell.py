@@ -34,12 +34,23 @@ class Cell:
     def draw(self):
         if self.has_top_wall:
             self._win.draw_line(self.top_line)
+        else:
+            self._win.draw_line(self.top_line, "white")
+        
         if self.has_right_wall:
             self._win.draw_line(self.right_line)
+        else:
+            self._win.draw_line(self.right_line, "white")
+
         if self.has_bottom_wall:
             self._win.draw_line(self.bottom_line)
+        else:
+            self._win.draw_line(self.bottom_line, "white")
+            
         if self.has_left_wall:
             self._win.draw_line(self.left_line)
+        else:
+            self._win.draw_line(self.left_line, "white")
     
     def draw_move(self, other, undo=False):
         if undo:
