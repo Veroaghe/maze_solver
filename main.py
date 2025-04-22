@@ -10,7 +10,9 @@ def main():
     grid_x = (win.width - (cell_width * cols)) / 2
     grid_y = (win.height - (cell_height * rows)) / 2
 
-    Maze(win, grid_x, grid_y, cols, rows, cell_width, cell_height)
+
+    maze = Maze(win, grid_x, grid_y, cols, rows, cell_width, cell_height)
+    maze.solve()
 
     win.wait_for_close()
 

@@ -38,9 +38,9 @@ class Maze:
         cell.draw()
         self._animate()
     
-    def _animate(self):
+    def _animate(self, sleep_time=0.03):
         self._win.redraw()
-        time.sleep(0.03)
+        time.sleep(sleep_time)
     
     def _break_entrance_and_exit(self):
         top_left_cell = self._cells[0][0]
@@ -97,3 +97,90 @@ class Maze:
         for i in range(self.num_cols):
             for j in range(self.num_rows):
                 self._cells[i][j].visited = False
+    
+    def solve(self):
+        self._reset_cells_visited()
+        # return self._depth_first_solve_r()
+        return self._random_dir_solve_r()
+    
+    def _depth_first_solve_r(self, i=0, j=0):
+        self._animate(0.07)
+        current_cell = self._cells[i][j]
+        current_cell.visited = True
+
+        if current_cell == self._cells[-1][-1]:
+            return True
+        
+        # Right Side Cell
+        if i + 1 < self.num_cols and not current_cell.has_right_wall and not self._cells[i+1][j].visited:
+            current_cell.draw_move(self._cells[i+1][j])
+            if self._depth_first_solve_r(i+1, j):
+                return True
+            else:
+                current_cell.draw_move(self._cells[i+1][j], True)
+        # Bottom Side Cell
+        if j + 1 < self.num_rows and not current_cell.has_bottom_wall and not self._cells[i][j+1].visited:
+            current_cell.draw_move(self._cells[i][j+1])
+            if self._depth_first_solve_r(i, j+1):
+                return True
+            else:
+                current_cell.draw_move(self._cells[i][j+1], True)
+        # Left Side Cell
+        if i - 1 >= 0 and not current_cell.has_left_wall and not self._cells[i-1][j].visited:
+            current_cell.draw_move(self._cells[i-1][j])
+            if self._depth_first_solve_r(i-1, j):
+                return True
+            else:
+                current_cell.draw_move(self._cells[i-1][j], True)
+        # Top Side Cell
+        if j - 1 >= 0 and not current_cell.has_top_wall and not self._cells[i][j-1].visited:
+            current_cell.draw_move(self._cells[i][j-1])
+            if self._depth_first_solve_r(i, j-1):
+                return True
+            else:
+                current_cell.draw_move(self._cells[i][j-1], True)
+        
+        return False
+    
+    def _random_dir_solve_r(self, i=0, j=0):
+        self._animate(0.07)
+        current_cell = self._cells[i][j]
+        current_cell.visited = True
+
+        if current_cell == self._cells[-1][-1]:
+            return True
+        
+        directions = ["right", "bottom", "left", "top"]
+        random.shuffle(directions)
+        for direction in directions:
+            # Right Side Cell
+            if direction == "right" and i + 1 < self.num_cols and not current_cell.has_right_wall and not self._cells[i+1][j].visited:
+                current_cell.draw_move(self._cells[i+1][j])
+                if self._random_dir_solve_r(i+1, j):
+                    return True
+                else:
+                    current_cell.draw_move(self._cells[i+1][j], True)
+            # Bottom Side Cell
+            if direction == "bottom" and j + 1 < self.num_rows and not current_cell.has_bottom_wall and not self._cells[i][j+1].visited:
+                current_cell.draw_move(self._cells[i][j+1])
+                if self._random_dir_solve_r(i, j+1):
+                    return True
+                else:
+                    current_cell.draw_move(self._cells[i][j+1], True)
+            # Left Side Cell
+            if direction == "left" and i - 1 >= 0 and not current_cell.has_left_wall and not self._cells[i-1][j].visited:
+                current_cell.draw_move(self._cells[i-1][j])
+                if self._random_dir_solve_r(i-1, j):
+                    return True
+                else:
+                    current_cell.draw_move(self._cells[i-1][j], True)
+            # Top Side Cell
+            if direction == "top" and j - 1 >= 0 and not current_cell.has_top_wall and not self._cells[i][j-1].visited:
+                current_cell.draw_move(self._cells[i][j-1])
+                if self._random_dir_solve_r(i, j-1):
+                    return True
+                else:
+                    current_cell.draw_move(self._cells[i][j-1], True)
+            
+        return False
+
