@@ -27,6 +27,26 @@ class Tests(unittest.TestCase):
             m1._cells[-1][-1].has_right_wall,
             False
         )
+    
+    def test_reset_visited(self):
+        num_cols = 5
+        num_rows = 5
+        m1 = Maze(None, 0, 0, num_rows, num_cols, 10, 10)
+
+        for i in range(m1.num_cols):
+            for j in range(m1.num_rows):
+                self.assertEqual( # On maze creation, every cell should be visited
+                    m1._cells[i][j].visited,
+                    True
+                )
+
+        m1._reset_cells_visited()
+        for i in range(m1.num_cols):
+            for j in range(m1.num_rows):
+                self.assertEqual( # On maze creation, every cell should be visited
+                    m1._cells[i][j].visited,
+                    False
+                )
 
 if __name__ == "__main__":
     unittest.main()
